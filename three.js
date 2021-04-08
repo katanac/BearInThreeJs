@@ -1,9 +1,12 @@
 var scene, camera, renderer;
 var Head, eyeOne, eyeTwo, noise, noiseBlack, jaw, mouth, mouthBlack, earOne, earTwo;
 var Tummy, arm, armTwo, feet, feetTwo, shoulder, shoulderTwo, claw, clawTwo, tail;
-
+var controls, stats;
 
 const animate = function() {
+    controls.update();
+    stats.update();
+
     requestAnimationFrame(animate);
 
     //positions head
@@ -168,16 +171,30 @@ function createTail() {
     tail = new THREE.Mesh(geometry, material);
 }
 
+
+function createStats() {
+    stats = new Stats();
+    stats.setMode(2);
+    stats.domElement.style.position = "absolute";
+    stats.domElement.style.left = "100px";
+    stats.domElement.style.top = "10px";
+    document.getElementById("myStats").appendChild(stats.domElement);
+    return stats;
+}
+
 function init() {
     //create scene
     scene = new THREE.Scene();
     scene.background = new THREE.Color(0x6FA8DC);
+
 
     //create camera
     createCamera();
 
     //create render
     createRender();
+    //controls
+    controls = new THREE.OrbitControls(camera, renderer.domElement);
 
     //create beard
     //head
@@ -193,6 +210,10 @@ function init() {
     createClaw();
     createTail();
     createTummy();
+
+    //stats
+    createStats();
+
 
 }
 
